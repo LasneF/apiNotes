@@ -1,0 +1,44 @@
+openapi: '3.0.3'
+info:
+  title: API Title
+  version: '1.0'
+servers:
+  - url: https://api.server.test/v1
+
+paths:
+  /simple:
+    get:
+      responses:
+        '200':
+          description: dummy
+          content:
+            application/json:
+              schema : 
+                $ref: "#/components/schemas/AnObject"
+
+components:
+  schemas:
+    AnObject:
+      type: object
+      description: description of the AnObject
+      properties:
+        anInlineFieldDescription:
+          type: string
+          maxLength: 35 
+          description: this is inline documentation but as well constrains. Not scalable when we have structure
+          example : "inline"
+        aReferenceFieldDescription: 
+          $ref: "#/components/schemas/aGeneric35CharString"
+          description: this is a carId (leveraging a common type call an aGeneric35CharString) . This comment is lost.
+        aWorkAroundFieldDescription:
+           allOf : 
+           - $ref: "#/components/schemas/aGeneric35CharString"
+           description: this is a yetAnother Id (leverageing an allOf) this is a anAllOfIdentifier.
+           example: "workAround"
+        
+    
+    aGeneric35CharString: 
+      type: string
+      description: this is a usually a too generic description. 
+      maxLength: 35
+      example: "toogGeneric"
